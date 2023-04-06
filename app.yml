@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app42-deployment
+spec:
+  selector:
+    matchLabels:
+      app: app42
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app42
+    spec:
+      containers:
+      - name: app42
+        image: wil42/playground:v1
+        ports:
+        - containerPort: 8888
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: app42-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: app42
+  ports:
+    - protocol: TCP
+      port: 8888
+      targetPort: 8888
