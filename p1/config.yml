@@ -1,0 +1,18 @@
+vagrantbox: generic/alpine317
+provider: virtualbox
+shared:
+  #network: 192.168.56.
+  cpu: 1
+  ram: 1024
+server:
+  hostname: aartigesS
+  network: private_network
+  ip: 192.168.42.110
+  #cpu: 2
+  #ram: 1024
+agent:
+  hostname: aartigesSW 
+  network: private_network
+  ip: 192.168.42.111
+  #cpu: 2
+  #ram: 1024

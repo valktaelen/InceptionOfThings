@@ -1,0 +1,33 @@
+# encoding: utf-8
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require 'yaml'
+
+options = YAML.load_file('./vagrant/config.yml')
+
+Vagrant.configure("2") do |config|
+  # Box config
+  config.vm.box = options.fetch('vagrantbox')
+
+  # Shared provider config
+  config.vm.provider options.fetch('provider') do |vb|
+    vb.cpus = options.fetch('server').fetch('cpu')
+    vb.memory = options.fetch('server').fetch('ram')
+  end
+
+  # Server
+  config.vm.define options.fetch('server').fetch('hostname') do |server|
+    server.vm.hostname = options.fetch('server').fetch('hostname')
+    server.vm.network options.fetch('server').fetch('network'), ip: options.fetch('server').fetch('ip')
+    
+    server.vm.synced_folder "./scripts", "/home/vagrant/scripts", type: "virtualbox"
+
+    # Provider config
+    server.vm.provider options.fetch('provider') do |vmp|
+      vmp.name = options.fetch('server').fetch('hostname')
+    end
+
+    # server.vm.provision :up, type: "file", path: "scripts/provision-server.sh"
+  end
+end

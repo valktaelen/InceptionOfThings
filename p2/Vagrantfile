@@ -1,0 +1,35 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require 'yaml'
+options = YAML.load_file('config.yml')
+
+Vagrant.configure("2") do |config|
+  vm = options.fetch("vm")
+  base = vm.fetch("base")
+  network = vm.fetch("network")
+  provision = vm.fetch("provision")
+  # Setup base of the vm
+  config.vm.define base.fetch("hostname")
+  config.vm.box = base.fetch("version")
+  config.vm.hostname = base.fetch("hostname")
+  config.vm.provider base.fetch("provider") do |vm_virtualbox|
+    vm_virtualbox.gui = false
+    vm_virtualbox.name = base.fetch("hostname")
+    vm_virtualbox.memory = base.fetch("ram")
+    vm_virtualbox.cpus = base.fetch("cpu")
+  end
+  # Network
+  config.vm.network "private_network", ip: network.fetch("ip")
+  config.vm.network "forwarded_port", guest: network.fetch("port_guest"), host: network.fetch("port_host")
+  #config.vm.network "public_network", bridge:"en0: Wi-fi (Airport)", ip: network.fetch("ip")
+  # ssh
+  config.ssh.keys_only = true
+  config.ssh.insert_key = true
+  config.ssh.keys_only = true
+  # Sites
+  config.vm.provision "file", source: provision.fetch("files_cluster_host"), destination: provision.fetch("files_cluster_guest")
+  #config.vm.synced_folder "k3s_cluster/", "/home/vagrant/k3s_cluster", type: "rsync"
+  # Setup
+  config.vm.provision "shell", path: provision.fetch("shell")
+end
