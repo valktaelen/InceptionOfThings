@@ -10,6 +10,9 @@ check_command() {
 
 # Install
 
-check_command "docker" || (source install_docker.sh && install_docker)
-check_command "kubectl" || (source install_kubectl.sh && install_kubectl)
-check_command "k3d" || (source install_k3d.sh && install_k3d)
+install() {
+    check_command "docker" || (source scripts/install_docker.sh && install_docker)
+    check_command "kubectl" || (source scripts/install_kubectl.sh && install_kubectl)
+    check_command "k3d" || (source scripts/install_k3d.sh && install_k3d)
+    sudo systemctl enable --now docker
+}
