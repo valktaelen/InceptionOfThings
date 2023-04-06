@@ -16,4 +16,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-  refreshInterval: 5m
