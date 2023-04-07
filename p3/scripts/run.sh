@@ -37,7 +37,7 @@ sudo kubectl port-forward -n argocd svc/argocd-server 8080:443 1>/dev/null &
 sudo bash << EOF & &>/dev/null
 while true ; do
 	sudo kubectl port-forward -n dev svc/wil-app 8888:8888 &>/dev/null
-	sleep 10
+	sleep 5
 done
 EOF
 
