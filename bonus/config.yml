@@ -1,0 +1,9 @@
+vagrantbox: generic/ubuntu2204
+provider: virtualbox
+shared:
+  cpu: 2
+  ram: 2048
+server:
+  hostname: aartigesS
+  network: private_network
+  ip: 192.168.42.110

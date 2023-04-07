@@ -1,0 +1,35 @@
+# encoding: utf-8
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require 'yaml'
+
+options = YAML.load_file('config.yml')
+
+Vagrant.configure("2") do |config|
+  config.vm.box = options.fetch('vagrantbox')
+
+  config.vm.provider options.fetch('provider') do |vb|
+    vb.cpus = options.fetch('shared').fetch('cpu')
+    vb.memory = options.fetch('shared').fetch('ram')
+  end
+
+  config.vm.provision "file", source: "./scripts", destination: "/home/vagrant/scripts"
+  config.vm.provision "file", source: "./confs", destination: "/home/vagrant/confs"
+  config.vm.provision "file", source: "./dev", destination: "/home/vagrant/dev"
+  
+  config.vm.network "forwarded_port", guest: network.fetch("8080"), host: network.fetch("8080")
+  config.vm.network "forwarded_port", guest: network.fetch("8888"), host: network.fetch("8888")
+  config.vm.network "forwarded_port", guest: network.fetch("6969"), host: network.fetch("6969")
+
+  config.vm.define options.fetch('server').fetch('hostname') do |server|
+    server.vm.hostname = options.fetch('server').fetch('hostname')
+    server.vm.network options.fetch('server').fetch('network'), ip: options.fetch('server').fetch('ip')
+    
+    server.vm.provider options.fetch('provider') do |provider|
+      provider.name = options.fetch('server').fetch('hostname')
+    end
+
+    server.vm.provision "shell", path: "scripts/run_vm.sh"
+  end
+end
