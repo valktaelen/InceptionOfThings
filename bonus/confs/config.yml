@@ -9,7 +9,7 @@ spec:
     namespace: dev
     server: https://kubernetes.default.svc
   source:
-    repoURL: https://github.com/valktaelen/InceptionOfThings
+    repoURL: http://192.168.42.110:6969/gitlab-instance-02fae04a/hello.git
     path: .
     targetRevision: namespace/dev
   syncPolicy:

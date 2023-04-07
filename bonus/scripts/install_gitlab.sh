@@ -1,9 +1,11 @@
 
-sudo apt-get update
-sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
-sudo apt-get install -y postfix
+apt-get update
+apt-get install -y curl openssh-server ca-certificates tzdata perl
+echo curl install
 curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
-sudo EXTERNAL_URL="http://192.168.42.110:6969" apt-get install gitlab-ee
+apt update
+echo install gitlab
+EXTERNAL_URL="http://192.168.42.110:6969" apt-get install gitlab-ee -y
 
 
 # GitLab config
@@ -20,19 +22,22 @@ adminroot
 adminroot
 EOF
 
-# Change group visibility to allow public repos
-# Change group visibility
-#    On the top bar, select Menu > Groups and find your project.
-#    On the left sidebar, select Settings > General .
-#    Expand Naming, visibility .
-#    Under Visibility level select either Private , Internal , or Public .
-#    Select Save changes .
-gitlab project create --name "inception" --visibility "public"
+# # Change group visibility to allow public repos
+# # Change group visibility
+# #    On the top bar, select Menu > Groups and find your project.
+# #    On the left sidebar, select Settings > General .
+# #    Expand Naming, visibility .
+# #    Under Visibility level select either Private , Internal , or Public .
+# #    Select Save changes .
+# gitlab project create --name "inception" --visibility "public"
 
-cd /home/vagrant/dev
+# cd /home/vagrant/dev
 git init
 git add .
 git commit -m 'initial commit'
 git branch -M master
-git remote add origin 'http://192.168.42.110:6969/root/inception.git'
-git push -u origin master
+git remote add origin 'http://192.168.42.110:6969/gitlab-instance-02fae04a/hello.git'
+# git push -u origin master << EOF
+# adminroot
+# adminroot
+# EOF

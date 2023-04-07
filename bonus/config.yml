@@ -1,7 +1,7 @@
 vagrantbox: generic/ubuntu2204
 provider: virtualbox
 shared:
-  cpu: 2
+  cpu: 4
   ram: 2048
 server:
   hostname: aartigesS

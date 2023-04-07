@@ -14,22 +14,22 @@ Vagrant.configure("2") do |config|
     vb.memory = options.fetch('shared').fetch('ram')
   end
 
-  config.vm.provision "file", source: "./scripts", destination: "/home/vagrant/scripts"
-  config.vm.provision "file", source: "./confs", destination: "/home/vagrant/confs"
-  config.vm.provision "file", source: "./dev", destination: "/home/vagrant/dev"
   
-  config.vm.network "forwarded_port", guest: network.fetch("8080"), host: network.fetch("8080")
-  config.vm.network "forwarded_port", guest: network.fetch("8888"), host: network.fetch("8888")
-  config.vm.network "forwarded_port", guest: network.fetch("6969"), host: network.fetch("6969")
-
   config.vm.define options.fetch('server').fetch('hostname') do |server|
+    server.vm.provision "file", source: "./scripts", destination: "/home/vagrant/scripts"
+    server.vm.provision "file", source: "./confs", destination: "/home/vagrant/confs"
+    server.vm.provision "file", source: "./dev", destination: "/home/vagrant/dev"
+    
     server.vm.hostname = options.fetch('server').fetch('hostname')
     server.vm.network options.fetch('server').fetch('network'), ip: options.fetch('server').fetch('ip')
     
     server.vm.provider options.fetch('provider') do |provider|
       provider.name = options.fetch('server').fetch('hostname')
     end
-
+    
     server.vm.provision "shell", path: "scripts/run_vm.sh"
   end
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 8888, host: 8888
+  config.vm.network "forwarded_port", guest: 6969, host: 6969
 end
