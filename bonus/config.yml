@@ -2,7 +2,7 @@ vagrantbox: generic/ubuntu2204
 provider: virtualbox
 shared:
   cpu: 4
-  ram: 2048
+  ram: 6144
 server:
   hostname: aartigesS
   network: private_network

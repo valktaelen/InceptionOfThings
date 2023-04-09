@@ -32,7 +32,8 @@ while true ; do
 	fi
 done
 
-sudo kubectl port-forward -n argocd svc/argocd-server 8080:443 1>/dev/null &
+echo 'Port Forward'
+sudo kubectl port-forward -n argocd svc/argocd-server '8081:443'
 
 sudo bash << EOF & &>/dev/null
 while true ; do

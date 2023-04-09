@@ -9,9 +9,9 @@ spec:
     namespace: dev
     server: https://kubernetes.default.svc
   source:
-    repoURL: http://192.168.42.110:6969/gitlab-instance-02fae04a/hello.git
+    repoURL: http://192.168.42.110:6969/root/test.git
     path: .
-    targetRevision: namespace/dev
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
