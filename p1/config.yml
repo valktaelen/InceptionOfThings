@@ -7,12 +7,12 @@ shared:
 server:
   hostname: aartigesS
   network: private_network
-  ip: 192.168.42.110
+  ip: 192.168.56.110
   #cpu: 2
   #ram: 1024
 agent:
   hostname: aartigesSW 
   network: private_network
-  ip: 192.168.42.111
+  ip: 192.168.56.111
   #cpu: 2
   #ram: 1024
