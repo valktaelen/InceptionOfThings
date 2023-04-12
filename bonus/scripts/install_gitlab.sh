@@ -1,17 +1,17 @@
+#! /bin/bash
 
-apt-get update
-apt-get install -y curl openssh-server ca-certificates tzdata perl
-echo curl install
-curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
-apt update
-echo install gitlab
-EXTERNAL_URL="http://192.168.42.110:6969" apt-get install gitlab-ee -y
+# https://docs.gitlab.com/charts/installation/deployment.html
 
+sudo curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-# GitLab config
-# Edit configs
-# sudo vim /etc/gitlab/gitlab.rb
-# sudo gitlab-ctl reconfigure
+sudo helm repo add gitlab https://charts.gitlab.io/
+sudo helm repo update
 
-# Get root's default password
-sudo cat /etc/gitlab/initial_root_password
+sudo helm upgrade --install gitlab gitlab/gitlab \
+  -n gitlab \
+  -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml \
+  --set global.hosts.domain=10.11.1.253.nip.io \
+  --set global.hosts.externalIP=10.11.1.253 \
+  --set global.edition=ce \
+  --timeout 600s
+
