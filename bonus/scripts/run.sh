@@ -23,7 +23,7 @@ echo
 echo 'Install gitlab'
 sudo helm repo add gitlab https://charts.gitlab.io/
 sudo helm repo update
-sudo helm upgrade --install gitlab gitlab/gitlab \ \
+sudo helm upgrade --install gitlab gitlab/gitlab \
 	-n gitlab \
 	-f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml \
 	--timeout 600s \
