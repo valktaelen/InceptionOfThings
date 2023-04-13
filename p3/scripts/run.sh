@@ -18,6 +18,7 @@ sudo kubectl create namespace dev
 sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 echo 'Wait argocd ...'
+sleep 42
 sudo kubectl wait --for=condition=Ready pods --all -n argocd
 
 # CD
