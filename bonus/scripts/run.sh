@@ -17,12 +17,9 @@ sudo kubectl create namespace gitlab
 
 # Deploy argocd
 sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-echo 'Wait argocd ...'
-sleep 42
-sudo kubectl wait --for=condition=Ready pods --all -n argocd
-
 echo
+
+
 echo 'Install gitlab'
 sudo helm repo add gitlab https://charts.gitlab.io/
 sudo helm repo update
@@ -33,8 +30,10 @@ sudo helm upgrade --install gitlab gitlab/gitlab \ \
 	--set global.hosts.externalIP=10.10.10.10 \
 	--set global.edition=ce
 
-echo 'wait gitlab'
+echo
+echo 'Wait argocd, gitlab ...'
 sleep 42
+sudo kubectl wait --for=condition=Ready pods --all -n argocd
 sudo kubectl wait --for=condition=available deployments --all -n gitlab
 
 sudo kubectl port-forward -n argocd svc/argocd-server 8080:443 1>/dev/null &
