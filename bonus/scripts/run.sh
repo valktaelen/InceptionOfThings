@@ -5,7 +5,32 @@ CLUSTER_NAME=mycluster
 source scripts/install.sh
 install
 
-./scripts/install_gitlab.sh
+# ./scripts/install_gitlab.sh
+
+###########
+
+# # Download helm
+# sudo curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# sudo kubectl create namespace gitlab
+
+# # Deploy gitlab using helm
+# sudo helm repo add gitlab https://charts.gitlab.io/
+# sudo helm repo update
+# sudo helm upgrade --install gitlab gitlab/gitlab \
+#   -n gitlab \
+#   -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml \
+#   --set global.hosts.domain=10.11.1.253.nip.io \
+#   --set global.hosts.externalIP=10.11.1.253 \
+#   --set global.edition=ce \
+#   --timeout 600s
+
+# # TODO does not work
+# echo 'Gitlab password:'
+# kubectl get secret gitlab-gitlab-initial-root-password -n gitlab -ojsonpath='{.data.password}' | base64 --decode ; echo
+
+# sudo kubectl wait --for=condition=available deployments --all -n gitlab
+# #########
 
 
 echo 'Delete cluster'
@@ -16,7 +41,6 @@ sudo k3d cluster create $CLUSTER_NAME #--api-port 6443 -p 8080:80@loadbalancer -
 # Namespaces
 sudo kubectl create namespace argocd
 sudo kubectl create namespace dev
-sudo kubectl create namespace gitlab
 
 # Deploy argocd
 sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
@@ -32,7 +56,6 @@ sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-
 # CD
 sudo kubectl apply -f confs/config.yml
 
-# sudo kubectl wait --for=condition=available deployments --all -n gitlab
 # sudo kubectl wait --for=condition=Ready pods --all -n argocd
 
 while true ; do
@@ -46,8 +69,9 @@ while true ; do
 	fi
 done
 
-echo 'Port Forward'
-sudo kubectl port-forward -n argocd svc/argocd-server '8081:443'
+echo 'Port forward Argo CD'
+sudo kubectl port-forward -n argocd svc/argocd-server '8081:443' &
+echo 'Port forward Gitlab'
 sudo kubectl port-forward svc/gitlab-webservice-default --address 10.11.1.253 -n gitlab 8082:8080 2>&1 >/dev/null &
 
 sudo bash << EOF & &>/dev/null
