@@ -9,9 +9,9 @@ spec:
     namespace: dev
     server: https://kubernetes.default.svc
   source:
-    repoURL: http://192.168.42.110:6969/root/test.git
+    repoURL: https://github.com/valktaelen/InceptionOfThings
     path: .
-    targetRevision: main
+    targetRevision: namespace/dev
   syncPolicy:
     automated:
       prune: true
