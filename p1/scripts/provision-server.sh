@@ -8,9 +8,9 @@ curl -sfL https://get.k3s.io | sh -
 echo -n " * Waiting k3s "
 
 while [ ! -f /var/lib/rancher/k3s/server/node-token ]
-	do
-		sleep 1
-        echo -n "."
-	done
+do
+	sleep 1
+	echo -n "."
+done
 
 echo " [ ok ]"
