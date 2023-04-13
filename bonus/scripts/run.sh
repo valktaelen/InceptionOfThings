@@ -26,7 +26,9 @@ echo
 echo 'Install gitlab'
 helm repo add gitlab https://charts.gitlab.io/
 helm repo update
-helm upgrade --install gitlab gitlab/gitlab \
+helm upgrade --install gitlab gitlab/gitlab \ \
+	-n gitlab \
+	-f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml \
 	--timeout 600s \
 	--set global.hosts.externalIP=10.10.10.10 \
 	--set global.edition=ce
