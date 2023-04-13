@@ -10,7 +10,7 @@ vm:
     port_guest: 80
     port_host: 8080
   provision:
-    shell: "install.sh"
-    files_cluster_host: "./k3s_cluster"
+    shell: "scripts/install.sh"
+    files_cluster_host: "./confs"
     files_cluster_guest: "/home/vagrant/k3s_cluster"
 
