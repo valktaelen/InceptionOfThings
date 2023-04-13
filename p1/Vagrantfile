@@ -9,6 +9,7 @@ options = YAML.load_file('config.yml')
 if File.exist?('./confs/id_rsa')
   puts "ssh key exist"
 else
+  system("mkdir -p ./confs")
   system("ssh-keygen -f ./confs/id_rsa -t rsa -N ''")
 end
 
