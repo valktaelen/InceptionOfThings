@@ -20,19 +20,9 @@ sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-
 # CD
 sudo kubectl apply -f confs/config.yml
 
+sudo kubectl wait --for=condition=Ready pods --all -n argocd
 
-while true ; do
-	i=$(sudo kubectl get pod -n argocd 2>/dev/null | grep "1/1" | wc -l)
-	if [ $i = 7 ] ; then
-		echo "Ready!"
-		break
-	else
-		echo -n "."
-		sleep 10
-	fi
-done
-
-sudo kubectl port-forward -n argocd svc/argocd-server 8080:443 1>/dev/null &
+sudo kubectl port-forward -n argocd svc/argocd-server 8080:443 &
 
 sudo bash << EOF & &>/dev/null
 while true ; do
