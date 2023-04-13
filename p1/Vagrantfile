@@ -6,6 +6,12 @@ require 'yaml'
 
 options = YAML.load_file('config.yml')
 
+if File.exist?('./confs/id_rsa')
+  puts "ssh key exist"
+else
+  system("ssh-keygen -f ./confs/id_rsa -t rsa -N ''")
+end
+
 Vagrant.configure("2") do |config|
   config.vm.box = options.fetch('vagrantbox')
 
@@ -14,7 +20,7 @@ Vagrant.configure("2") do |config|
     vb.memory = options.fetch('shared').fetch('ram')
   end
 
-  config.vm.provision "file", source: "./auth", destination: "/home/vagrant/auth"
+  config.vm.provision "file", source: "./confs", destination: "/home/vagrant/auth"
   config.vm.provision "shell", path: "scripts/provision-base.sh"
 
   # Server
