@@ -22,12 +22,15 @@ echo
 
 echo 'Install gitlab'
 sudo helm repo add gitlab https://charts.gitlab.io/
+sudo helm repo add my-repo https://charts.bitnami.com/bitnami
 sudo helm repo update
+sudo helm upgrade --install my-release my-repo/postgresql \
+	-n gitlab
 sudo helm upgrade --install gitlab gitlab/gitlab \
 	-n gitlab \
 	-f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml \
 	--timeout 600s \
-	--set global.hosts.externalIP=10.10.10.10 \
+	--set global.hosts.externalIP=127.0.0.1 \
 	--set global.edition=ce
 
 echo
