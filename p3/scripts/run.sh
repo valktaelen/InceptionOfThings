@@ -17,9 +17,13 @@ sudo kubectl create namespace dev
 # Deploy argocd
 sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
+echo 'Wait argocd ...'
+sudo kubectl wait --for=condition=Ready pods --all -n argocd
+
 # CD
 sudo kubectl apply -f confs/config.yml
 
+echo 'Wait argocd ...'
 sudo kubectl wait --for=condition=Ready pods --all -n argocd
 
 sudo kubectl port-forward -n argocd svc/argocd-server 8080:443 &
