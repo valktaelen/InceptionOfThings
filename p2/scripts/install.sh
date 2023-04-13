@@ -9,6 +9,8 @@ echo $current_ip
 export INSTALL_K3S_EXEC="--bind-address=${current_ip} --flannel-iface=eth1 --write-kubeconfig-mode 644"
 curl -sfL https://get.k3s.io | sh -
 
+sleep 42
+
 echo "Apply deployments [pod]"
 kubectl apply -f /home/vagrant/k3s_cluster/app1.yml
 kubectl apply -f /home/vagrant/k3s_cluster/app2.yml
