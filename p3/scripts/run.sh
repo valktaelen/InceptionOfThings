@@ -18,14 +18,14 @@ sudo kubectl create namespace dev
 sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 echo 'Wait argocd ...'
-sleep 42
-sudo kubectl wait --for=condition=Ready pods --all -n argocd
+sleep 2
+sudo kubectl wait --timeout 600s --for=condition=Ready pods --all -n argocd
 
 # CD
 sudo kubectl apply -f confs/config.yml
 
 echo 'Wait argocd ...'
-sudo kubectl wait --for=condition=Ready pods --all -n argocd
+sudo kubectl wait --timeout 600s --for=condition=Ready pods --all -n argocd
 
 sudo kubectl port-forward -n argocd svc/argocd-server 8080:443 &
 
