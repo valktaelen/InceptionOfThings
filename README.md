@@ -14,5 +14,5 @@ Introduction to vagrant, k3s and k3d
 - Part 2: K3s and three simple applications
     - `vagrant up`
 
-- Part 3: K3d and Argo CD
+- Part 3: K3d and Argo CD (continuous deployment)
     - `bash ./scripts/run.sh`
